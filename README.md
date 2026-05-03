@@ -2,6 +2,25 @@
 
 A skill for AI coding agents working safely in parallel feature branches using git worktrees, Portless named local URLs, and isolated local state.
 
+## Install
+
+Install globally or from your project directory:
+
+```bash
+npx skills add johnpolacek/parallel-dev-worktrees-skill
+```
+
+This skill uses Portless for branch-specific `.localhost` URLs. We recommend also installing the official Portless skill:
+
+```bash
+npx skills add https://github.com/vercel-labs/portless --skill portless
+```
+
+## Requirements
+
+- Git worktrees.
+- Portless for named local dev URLs. Numeric ports are only a temporary fallback for local-only tasks.
+
 ## What It Helps With
 
 - Creating one worktree per feature branch.
@@ -35,25 +54,6 @@ The agent reads repo-local instructions first, prefers existing `wt:*` scripts, 
 For a project without a worktree workflow, install the skill globally or invoke it explicitly from the repo. The agent will use generic fallback commands, create a safe branch slug, check env/state isolation, and recommend project scripts when useful.
 
 To integrate the workflow into an existing project, install the skill project-locally and add repo-specific `wt:*` scripts such as `wt:doctor`, `wt:create`, `wt:list`, `wt:finish`, and `wt:clean` / `wt:prune`. Document the project's worktree path convention, Portless URL pattern, state isolation rules, and finish/cleanup commands in `AGENTS.md`.
-
-## Install
-
-Install globally or from your project directory:
-
-```bash
-npx skills add johnpolacek/parallel-dev-worktrees-skill
-```
-
-This skill uses Portless for branch-specific `.localhost` URLs. We recommend also installing the official Portless skill:
-
-```bash
-npx skills add https://github.com/vercel-labs/portless --skill portless
-```
-
-## Requirements
-
-- Git worktrees.
-- Portless for named local dev URLs. Numeric ports are only a temporary fallback for local-only tasks.
 
 ## Works Best With
 

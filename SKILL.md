@@ -20,6 +20,13 @@ Before creating or merging worktrees:
 
 Skill installation and project initialization are separate steps. Installing this skill makes the workflow available to the agent; it does not automatically modify every repo or install project-local scripts.
 
+Portless is a required companion for the intended workflow. During project initialization, check both:
+
+- The Portless skill is available, or the environment can run `npx skills add https://github.com/vercel-labs/portless --skill portless`.
+- The `portless` CLI is available or the project has a documented way to run Portless.
+
+If the Portless skill is missing and skill installation is available, install it as part of the initialization. If installation is not available or fails, stop before adding scripts that depend on Portless and report the exact install command. If only the CLI is missing, defer to the Portless skill for CLI setup and troubleshooting.
+
 When the user explicitly asks to initialize, onboard, configure, or install the workflow in a repo, inspect the project and then add a repo-specific workflow when appropriate. Prefer concrete project scripts and documentation over generic advice. A minimal workflow usually includes:
 
 - `wt:doctor`: check git status, worktree list, Portless availability, and state isolation settings.

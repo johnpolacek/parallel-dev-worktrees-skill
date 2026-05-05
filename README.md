@@ -21,6 +21,11 @@ modify every project. To add repo-local scripts, Portless naming, and project
 documentation, run an explicit project initialization prompt from the target
 repo.
 
+During project initialization, the agent should check whether the Portless skill
+and `portless` CLI are available. If either is missing, it should install or
+report the exact setup command before adding project scripts that depend on
+Portless.
+
 ## Requirements
 
 - Git worktrees.
@@ -68,6 +73,7 @@ Use $parallel-dev-worktrees to initialize this repo for parallel worktrees. Add 
 
 The agent should inspect the project before editing. A good setup usually adds:
 
+- Portless prerequisite check: verify the Portless skill and `portless` CLI are available, or install/report `npx skills add https://github.com/vercel-labs/portless --skill portless`.
 - `wt:doctor`: check git status, active worktrees, Portless availability, and env/state isolation.
 - `wt:create <branch>`: create `../<repo>.worktrees/<branch-slug>` from the integration branch.
 - `wt:list`: show active worktrees, branches, URLs, and dirty status.

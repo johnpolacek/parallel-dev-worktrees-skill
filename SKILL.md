@@ -18,7 +18,9 @@ Before creating or merging worktrees:
 
 ## Project Onboarding
 
-If a repo has no worktree workflow, do not invent project-specific automation during an unrelated task. Use the generic fallback for the current work, then propose adding a minimal workflow:
+Skill installation and project initialization are separate steps. Installing this skill makes the workflow available to the agent; it does not automatically modify every repo or install project-local scripts.
+
+When the user explicitly asks to initialize, onboard, configure, or install the workflow in a repo, inspect the project and then add a repo-specific workflow when appropriate. Prefer concrete project scripts and documentation over generic advice. A minimal workflow usually includes:
 
 - `wt:doctor`: check git status, worktree list, Portless availability, and state isolation settings.
 - `wt:create <branch>`: create a sibling worktree from the default integration branch.
@@ -26,9 +28,11 @@ If a repo has no worktree workflow, do not invent project-specific automation du
 - `wt:finish <branch>`: verify clean checkouts, fast-forward integration, check overlap, merge, remove the worktree, and prune stale metadata.
 - `wt:clean` / `wt:prune`: remove only safe stale worktree metadata, routes, and generated local state.
 
-For projects with shared backend risk, suggest a small runtime guard that reads a worktree identifier such as `WORKTREE_SLUG` and refuses to start if the app would connect to shared databases, caches, queues, object storage, or webhook endpoints without an explicit isolation setting.
+For projects with shared backend risk, add or suggest a small runtime guard that reads a worktree identifier such as `WORKTREE_SLUG` and refuses to start if the app would connect to shared databases, caches, queues, object storage, or webhook endpoints without an explicit isolation setting.
 
-Also propose updating `AGENTS.md` with the project's worktree path convention, Portless URL pattern, state isolation rules, and finish/cleanup commands.
+Also update or propose updating `AGENTS.md` with the project's worktree path convention, Portless URL pattern, state isolation rules, and finish/cleanup commands.
+
+If a repo has no worktree workflow and the user asked for an unrelated feature task, do not invent project-specific automation as part of that task. Use the generic fallback for the current work, then propose adding the minimal workflow later.
 
 ## Core Rules
 

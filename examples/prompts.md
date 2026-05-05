@@ -43,3 +43,7 @@ Use $parallel-dev-worktrees to merge this completed worktree back into the integ
 ```text
 Use $parallel-dev-worktrees to evaluate this repo's worktree workflow and recommend minimal wt:* scripts.
 ```
+
+```text
+Use $parallel-dev-worktrees to initialize this repo for parallel worktrees. Add repo-local wt:* scripts, configure Portless named URLs, document the workflow in AGENTS.md, and add checks for worktree-local env/state isolation.
+```

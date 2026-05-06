@@ -99,10 +99,6 @@ If the project uses databases, caches, queues, object storage, webhooks, OAuth c
 
 - Project-specific scripts or documented conventions for isolated databases, caches, browser profiles, and backend state.
 
-## Release
-
-Before publishing, run through `references/release-checklist.md`.
-
 ## License
 
 MIT

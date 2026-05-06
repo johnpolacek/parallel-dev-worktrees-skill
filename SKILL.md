@@ -35,17 +35,19 @@ When bootstrapping a repo for parallel dev workspaces:
 
 1. Inspect repo instructions, package scripts, dev server commands, env examples, backend/runtime config, and existing worktree docs.
 2. Verify the Portless prerequisite described above before adding scripts that depend on it.
-3. Add repo-local commands using the project's package manager or script style.
-4. Use the default branch as the integration checkout and sibling worktree directories at `../<repo>.worktrees/<branch-slug>`.
-5. Configure named Portless URLs: `https://<project>.localhost` for integration and `https://<branch-slug>.<project>.localhost` for feature worktrees.
-6. Add worktree-local env/state handling for generated clients, local databases, caches, queues, object storage prefixes, webhook/OAuth callback URLs, browser profiles, and other mutable state where relevant.
-7. Add a shared-backend guard when the project can accidentally connect multiple worktrees to the same mutable backend.
-8. Document the workflow in `AGENTS.md` or the repo's existing agent instructions.
-9. Run the safest available validation, such as `wt:doctor`, package script syntax checks, shell syntax checks, or relevant tests.
+3. Check whether the codebase can run independent local databases per worktree. Inspect env templates, ORM/database config, migrations, seed scripts, Docker Compose files, local SQLite paths, Postgres/MySQL database names or schemas, hosted dev database settings, and reset/migration commands.
+4. If independent local databases are not possible, treat that as a blocker for safe parallel development when work may touch schemas, migrations, seed data, or persisted app state. Stop before presenting the repo as ready for parallel workspaces, explain the concrete shared database risk, and recommend the smallest project change needed to support per-worktree databases.
+5. Add repo-local commands using the project's package manager or script style.
+6. Use the default branch as the integration checkout and sibling worktree directories at `../<repo>.worktrees/<branch-slug>`.
+7. Configure named Portless URLs: `https://<project>.localhost` for integration and `https://<branch-slug>.<project>.localhost` for feature worktrees.
+8. Add worktree-local env/state handling for generated clients, local databases, caches, queues, object storage prefixes, webhook/OAuth callback URLs, browser profiles, and other mutable state where relevant.
+9. Add a shared-backend guard when the project can accidentally connect multiple worktrees to the same mutable backend.
+10. Document the workflow in `AGENTS.md` or the repo's existing agent instructions.
+11. Run the safest available validation, such as `wt:doctor`, package script syntax checks, shell syntax checks, or relevant tests.
 
 Prefer concrete project scripts and documentation over generic advice. A minimal workflow usually includes:
 
-- `wt:doctor`: check git status, worktree list, Portless availability, and state isolation settings.
+- `wt:doctor`: check git status, worktree list, Portless availability, database isolation support, and state isolation settings.
 - `wt:create <branch>`: create a sibling worktree from the default integration branch.
 - `wt:list`: show active worktrees, branches, URLs, and dirty status.
 - `wt:finish <branch>`: verify clean checkouts, fast-forward integration, check overlap, merge, remove the worktree, and prune stale metadata.

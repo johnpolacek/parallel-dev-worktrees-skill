@@ -35,7 +35,10 @@ Use $parallel-dev-worktrees to initialize this project for parallel dev workspac
 
 The agent should inspect the project first, verify Portless is available, then
 add project-specific commands and documentation for creating, listing, running,
-finishing, and cleaning worktree-based workspaces.
+finishing, and cleaning worktree-based workspaces. It should also check whether
+the project can run independent local databases per worktree; if not, that is a
+blocker for safe parallel development on schema, migration, seed, or persisted
+state changes.
 
 ## Requirements
 
@@ -51,6 +54,7 @@ finishing, and cleaning worktree-based workspaces.
 - Protecting dirty worktrees from accidental cleanup.
 - Finishing feature branches through safe merge and cleanup checks.
 - Keeping mutable state isolated across worktrees.
+- Detecting whether independent local databases are supported before declaring a project ready for parallel workspaces.
 
 ## When To Use
 

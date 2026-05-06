@@ -40,6 +40,37 @@ the project can run independent local databases per worktree; if not, that is a
 blocker for safe parallel development on schema, migration, seed, or persisted
 state changes.
 
+## Start Work
+
+After a project has been initialized, start a feature in its own worktree:
+
+```text
+Use $parallel-dev-worktrees to create a worktree for feature/my-task and run the app at a Portless URL.
+```
+
+The agent should create a sibling worktree, set up worktree-local env/state
+where needed, start or describe the dev command, and hand back the branch, path,
+Portless URL, doctor command, finish command, and any remaining state setup.
+
+## Finish Work
+
+When the feature is complete, ask:
+
+```text
+Use $parallel-dev-worktrees to finish and clean up this feature branch.
+```
+
+The agent should commit intended changes in the feature worktree, verify the
+feature and integration checkouts are clean, fast-forward the integration branch,
+check for overlap with other active worktrees, merge the feature branch, remove
+the linked worktree, delete only the merged feature branch, and prune stale
+worktree metadata/routes when supported.
+
+The default documented fallback uses a normal merge, not a guaranteed squash or
+single-commit merge. If a project wants every finished worktree to land as one
+commit on the integration branch, its repo-local `wt:finish` command should
+explicitly implement that policy.
+
 ## Requirements
 
 - Git worktrees.

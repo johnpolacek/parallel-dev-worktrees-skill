@@ -34,7 +34,9 @@ git worktree add ../<repo>.worktrees/<branch-slug> -b feature/<branch-name>
 After creation:
 
 - copy required local env files carefully
-- install dependencies if needed
+- install dependencies in the new worktree using the detected package manager
+  - `pnpm install` when `pnpm-lock.yaml` or package metadata indicates pnpm
+  - `npm install`, `yarn install`, or `bun install` for matching projects
 - create isolated DB/cache/storage identifiers
 - add a worktree-specific Portless name in env or package config
 

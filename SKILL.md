@@ -50,7 +50,7 @@ When bootstrapping a repo for parallel dev workspaces:
 Prefer concrete project scripts and documentation over generic advice. A minimal workflow usually includes:
 
 - `wt:doctor`: check git status, worktree list, Portless availability, database isolation support, and state isolation settings.
-- `wt:create <branch>`: create a sibling worktree from the default integration branch.
+- `wt:create <branch>`: create a sibling worktree from the default integration branch, then run the repo's dependency install command in that worktree.
 - `wt:list`: show active worktrees, branches, URLs, and dirty status.
 - `wt:resume <branch>`: show the worktree's current status, active plan, recent commits, Portless URL, start command, and likely next steps without cleaning or merging anything.
 - `wt:open <branch>`: resolve the worktree's Portless URL, ensure the dev server is running or report the start command, and open the URL in the browser.
@@ -81,7 +81,9 @@ pnpm wt:doctor
 pnpm wt:create feature/my-task
 ```
 
-After creating the worktree, run the repo's documented setup step if the create script did not already do it. Check whether dependencies, env files, generated clients, and local state are worktree-local. Common setup includes `pnpm install` or equivalent, copying `.env.example` to `.env`, and setting worktree-specific values for ports, URLs, database names, cache prefixes, and storage prefixes. Never copy secrets blindly between worktrees; preserve required values but update anything that identifies mutable local state.
+After creating the worktree, run the repo's dependency install command inside the new worktree unless the create script already did it. Detect the package manager from lockfiles and package metadata. For pnpm projects, run `pnpm install` in the new worktree automatically. For other projects, use the equivalent install command, such as `npm install`, `yarn install`, `bun install`, or the repo's documented setup command.
+
+After dependencies are installed, continue the repo's documented setup if the create script did not already do it. Check whether env files, generated clients, and local state are worktree-local. Common setup includes copying `.env.example` to `.env`, generating clients, and setting worktree-specific values for ports, URLs, database names, cache prefixes, and storage prefixes. Never copy secrets blindly between worktrees; preserve required values but update anything that identifies mutable local state.
 
 If the work changes canonical app state, schemas, migrations, seeds, queues, or shared backend data, look for an isolation flag or documented state setup. If no isolation exists, stop and explain the state collision risk before proceeding. Name the concrete shared resources involved; common risks include schema or migration conflicts, seed data overwrites, queue/job duplication, cache poisoning, object storage collisions, webhook/OAuth callback mixups, and local SQLite/database files being reused across worktrees.
 
@@ -91,6 +93,7 @@ After creation, report:
 - branch name
 - Portless URL
 - plan path, usually `wiki/plans/<branch-slug>.md`, if a plan is created
+- dependency install command that ran, such as `pnpm install`
 - any env/backend/database setup still required
 - commands to start the app
 

@@ -56,10 +56,11 @@ After a project has been initialized, start a feature in its own worktree:
 Create a new worktree for feature/my-task.
 ```
 
-The agent should create a sibling worktree, set up worktree-local env/state
-where needed, start or describe the dev command, and hand back the branch, path,
-Portless URL, plan path, doctor command, finish command, and any remaining state
-setup.
+The agent should create a sibling worktree, run the repo's dependency install
+command in that worktree, set up worktree-local env/state where needed, start or
+describe the dev command, and hand back the branch, path, Portless URL, plan
+path, doctor command, finish command, and any remaining state setup. For pnpm
+projects, creation should run `pnpm install` automatically.
 
 ## Resume Work
 

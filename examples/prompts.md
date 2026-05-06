@@ -9,7 +9,7 @@ Use $parallel-dev-worktrees to create a safe feature worktree for this task.
 ```
 
 ```text
-Use $parallel-dev-worktrees to create a worktree for feature/login-rate-limit and run the app at a Portless URL.
+Create a new worktree for feature/login-rate-limit.
 ```
 
 ## Inspect

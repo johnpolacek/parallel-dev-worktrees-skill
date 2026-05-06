@@ -52,7 +52,7 @@ state changes.
 After a project has been initialized, start a feature in its own worktree:
 
 ```text
-Use $parallel-dev-worktrees to create a worktree for feature/my-task and run the app at a Portless URL.
+Create a new worktree for feature/my-task.
 ```
 
 The agent should create a sibling worktree, set up worktree-local env/state
@@ -84,7 +84,7 @@ Default behavior preserves feature branch history when finishing:
 
 ```text
 Use $parallel-dev-worktrees to initialize this project for parallel dev workspaces.
-Use $parallel-dev-worktrees to create a worktree for feature/billing-export and run the app at a Portless URL.
+Create a new worktree for feature/billing-export.
 Use $parallel-dev-worktrees to finish and clean up this feature branch.
 ```
 
@@ -98,7 +98,7 @@ commit on the integration branch, initialize with a squash finish policy:
 
 ```text
 Use $parallel-dev-worktrees to initialize this project for parallel dev workspaces with a squash finish policy.
-Use $parallel-dev-worktrees to create a worktree for feature/billing-export and run the app at a Portless URL.
+Create a new worktree for feature/billing-export.
 Use $parallel-dev-worktrees to finish and clean up this feature branch.
 ```
 

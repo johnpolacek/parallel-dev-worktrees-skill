@@ -78,6 +78,35 @@ single-commit merge. If a project was initialized with a squash finish policy,
 `wt:finish` should land the completed worktree as one commit on the integration
 branch before removing and pruning the worktree.
 
+## Sample Workflows
+
+Default behavior preserves feature branch history when finishing:
+
+```text
+Use $parallel-dev-worktrees to initialize this project for parallel dev workspaces.
+Use $parallel-dev-worktrees to create a worktree for feature/billing-export and run the app at a Portless URL.
+Use $parallel-dev-worktrees to finish and clean up this feature branch.
+```
+
+In the default flow, finish should run the safety checks, merge the feature
+branch using the project's documented merge policy, remove the linked worktree,
+delete only the merged feature branch, and prune stale metadata/routes when
+supported.
+
+For projects where you want completed worktrees automatically landed as one
+commit on the integration branch, initialize with a squash finish policy:
+
+```text
+Use $parallel-dev-worktrees to initialize this project for parallel dev workspaces with a squash finish policy.
+Use $parallel-dev-worktrees to create a worktree for feature/billing-export and run the app at a Portless URL.
+Use $parallel-dev-worktrees to finish and clean up this feature branch.
+```
+
+In the squash flow, finish should still run the same clean-checkout,
+fast-forward, overlap, and validation checks before creating the single
+integration-branch commit, removing the worktree, deleting the merged branch,
+and pruning stale metadata/routes.
+
 ## Requirements
 
 - Git worktrees.

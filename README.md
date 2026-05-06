@@ -18,8 +18,7 @@ npx skills add https://github.com/vercel-labs/portless --skill portless
 
 Installing the skill teaches the agent the workflow. It does not automatically
 modify every project. To add repo-local scripts, Portless naming, and project
-documentation, run an explicit project initialization prompt from the target
-repo.
+documentation, initialize each project from that repo.
 
 During project initialization, the agent should check whether the Portless skill
 and `portless` CLI are available. If either is missing, it should install or
@@ -70,30 +69,6 @@ More examples are in `examples/prompts.md`.
 ## What The Agent Does
 
 The agent reads repo-local instructions first, prefers existing `wt:*` scripts, checks dirty worktrees, uses Portless URLs for handoffs, verifies env/state isolation, and finishes only from clean checkouts. If no project workflow exists, it falls back to `references/generic-worktree-commands.md` and recommends adding project scripts later.
-
-## Use In A Project
-
-For a project without a worktree workflow, install the skill globally or invoke it explicitly from the repo. The agent will use generic fallback commands, create a safe branch slug, check env/state isolation, and recommend project scripts when useful.
-
-### Initialize A Repo
-
-From the repo you want to configure, ask the agent:
-
-```text
-Use $parallel-dev-worktrees to initialize this repo for parallel worktrees.
-```
-
-The agent should inspect the project before editing. A good setup usually adds:
-
-- Portless prerequisite check: verify the Portless skill and `portless` CLI are available, or install/report `npx skills add https://github.com/vercel-labs/portless --skill portless`.
-- `wt:doctor`: check git status, active worktrees, Portless availability, and env/state isolation.
-- `wt:create <branch>`: create `../<repo>.worktrees/<branch-slug>` from the integration branch.
-- `wt:list`: show active worktrees, branches, URLs, and dirty status.
-- `wt:finish <branch>`: verify clean checkouts, pull/merge safely, remove the worktree, and prune stale metadata.
-- `wt:clean` / `wt:prune`: remove only safe stale worktree metadata, routes, and generated local state.
-- `AGENTS.md` notes for the worktree path convention, Portless URL pattern, state isolation rules, and finish/cleanup commands.
-
-If the project uses databases, caches, queues, object storage, webhooks, OAuth callbacks, or local SQLite files, the setup should also document or enforce worktree-specific state identifiers before multiple worktrees run at the same time.
 
 ## Works Best With
 

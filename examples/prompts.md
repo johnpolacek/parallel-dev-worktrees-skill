@@ -49,5 +49,5 @@ Use $parallel-dev-worktrees to initialize this repo for parallel worktrees.
 ```
 
 ```text
-Use $parallel-dev-worktrees to initialize this repo for parallel worktrees with a squash finish policy.
+Use $parallel-dev-worktrees to initialize this repo with a squash finish policy.
 ```

@@ -37,7 +37,7 @@ To prefer a single-commit finish workflow in a specific project, say so during
 initialization:
 
 ```text
-Use $parallel-dev-worktrees to initialize this project for parallel dev workspaces with a squash finish policy.
+Use $parallel-dev-worktrees to initialize this project with a squash finish policy.
 ```
 
 The agent should inspect the project first, verify Portless is available, then
@@ -97,7 +97,7 @@ For projects where you want completed worktrees automatically landed as one
 commit on the integration branch, initialize with a squash finish policy:
 
 ```text
-Use $parallel-dev-worktrees to initialize this project for parallel dev workspaces with a squash finish policy.
+Use $parallel-dev-worktrees to initialize this project with a squash finish policy.
 Create a new worktree for feature/billing-export.
 Use $parallel-dev-worktrees to finish and clean up this feature branch.
 ```

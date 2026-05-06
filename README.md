@@ -45,7 +45,8 @@ add project-specific commands and documentation for creating, listing, running,
 finishing, and cleaning worktree-based workspaces. It should also check whether
 the project can run independent local databases per worktree; if not, that is a
 blocker for safe parallel development on schema, migration, seed, or persisted
-state changes.
+state changes. Feature plans are committed as project history in `wiki/plans/`,
+then moved to `wiki/plans/completed/` when finished.
 
 ## Start Work
 
@@ -57,7 +58,8 @@ Create a new worktree for feature/my-task.
 
 The agent should create a sibling worktree, set up worktree-local env/state
 where needed, start or describe the dev command, and hand back the branch, path,
-Portless URL, doctor command, finish command, and any remaining state setup.
+Portless URL, plan path, doctor command, finish command, and any remaining state
+setup.
 
 ## Finish Work
 
@@ -71,7 +73,9 @@ The agent should commit intended changes in the feature worktree, verify the
 feature and integration checkouts are clean, fast-forward the integration branch,
 check for overlap with other active worktrees, merge the feature branch, remove
 the linked worktree, delete only the merged feature branch, and prune stale
-worktree metadata/routes when supported.
+worktree metadata/routes when supported. If a plan exists in `wiki/plans/`, it
+should be updated and moved to `wiki/plans/completed/` as part of the finished
+feature history.
 
 The default finish policy is a normal merge, not a guaranteed squash or
 single-commit merge. If a project was initialized with a squash finish policy,
@@ -123,6 +127,7 @@ and pruning stale metadata/routes.
 - Supporting an opt-in squash finish policy for projects that want one commit per completed worktree.
 - Keeping mutable state isolated across worktrees.
 - Detecting whether independent local databases are supported before declaring a project ready for parallel workspaces.
+- Keeping active and completed feature plans in `wiki/plans/` as committed project history.
 
 ## When To Use
 

@@ -109,6 +109,16 @@ comm -12 "$feature_files" "$dirty_files"
 
 If the final command prints files, inspect the overlap before merging.
 
+If the repo keeps committed feature plans, update the active plan and move it to
+the completed directory before merging:
+
+```bash
+mkdir -p wiki/plans/completed
+git mv wiki/plans/<branch-slug>.md wiki/plans/completed/<branch-slug>.md
+# Edit the completed plan with final status, finish date, branch, finish policy,
+# resulting commit if known, and follow-ups before committing or squashing.
+```
+
 ```bash
 # In feature worktree
 git status --short --branch

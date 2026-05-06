@@ -26,6 +26,18 @@ and `portless` CLI are available. If either is missing, it should install or
 report the exact setup command before adding project scripts that depend on
 Portless.
 
+## Initialize A Project
+
+From the project you want to use with parallel dev workspaces, run this prompt:
+
+```text
+Use $parallel-dev-worktrees to initialize this project for parallel dev workspaces. Add repo-local wt:* scripts, configure Portless named URLs, document the workflow in AGENTS.md, and add checks for worktree-local env/state isolation.
+```
+
+The agent should inspect the project first, verify Portless is available, then
+add project-specific commands and documentation for creating, listing, running,
+finishing, and cleaning worktree-based workspaces.
+
 ## Requirements
 
 - Git worktrees.

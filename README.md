@@ -61,6 +61,25 @@ where needed, start or describe the dev command, and hand back the branch, path,
 Portless URL, plan path, doctor command, finish command, and any remaining state
 setup.
 
+## Resume Work
+
+To see what is already in progress:
+
+```text
+Show my active worktrees.
+```
+
+To continue a specific branch:
+
+```text
+Resume work on feature/billing-export.
+```
+
+The agent should list or resume worktrees without cleaning, pruning, merging,
+or deleting anything. It should report branch, path, dirty status, Portless URL,
+plan path, recent commits, start command, finish command, and next steps from
+the active plan when available.
+
 ## Finish Work
 
 When the feature is complete, ask:
@@ -89,6 +108,7 @@ Default behavior preserves feature branch history when finishing:
 ```text
 Use $parallel-dev-worktrees to initialize this project.
 Create a new worktree for feature/billing-export.
+Resume work on feature/billing-export.
 Use $parallel-dev-worktrees to finish and clean up this feature branch.
 ```
 
@@ -103,6 +123,7 @@ commit on the integration branch, initialize with a squash finish policy:
 ```text
 Use $parallel-dev-worktrees to initialize this project with a squash finish policy.
 Create a new worktree for feature/billing-export.
+Resume work on feature/billing-export.
 Use $parallel-dev-worktrees to finish and clean up this feature branch.
 ```
 
@@ -121,6 +142,7 @@ and pruning stale metadata/routes.
 - Creating one worktree per feature branch.
 - Preferring repo-local worktree scripts when available.
 - Running worktrees through stable Portless URLs.
+- Listing and resuming active worktrees after restarting an agent session.
 - Avoiding fixed localhost ports in handoffs and browser tests.
 - Protecting dirty worktrees from accidental cleanup.
 - Finishing feature branches through safe merge and cleanup checks.

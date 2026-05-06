@@ -52,6 +52,7 @@ Prefer concrete project scripts and documentation over generic advice. A minimal
 - `wt:doctor`: check git status, worktree list, Portless availability, database isolation support, and state isolation settings.
 - `wt:create <branch>`: create a sibling worktree from the default integration branch.
 - `wt:list`: show active worktrees, branches, URLs, and dirty status.
+- `wt:resume <branch>`: show the worktree's current status, active plan, recent commits, Portless URL, start command, and likely next steps without cleaning or merging anything.
 - `wt:finish <branch>`: verify clean checkouts, fast-forward integration, check overlap, move/update the plan from active to completed if present, apply the documented finish policy, remove the worktree, and prune stale metadata.
 - `wt:clean` / `wt:prune`: remove only safe stale worktree metadata, routes, and generated local state.
 
@@ -102,6 +103,19 @@ After creation, report:
 - Do not run two worktrees against the same mutable backend unless the repo explicitly supports it.
 - If a runtime guard refuses to start a shared backend, inspect the guard output, then stop the stale process or create an isolated backend. Do not bypass the guard.
 
+## Resume A Worktree
+
+When the user asks to show active worktrees, resume work, continue a branch, or asks what worktrees exist:
+
+1. Prefer project commands such as `wt:list` and `wt:resume <branch>` when available.
+2. If no project command exists, inspect `git worktree list --porcelain` and gather each worktree's branch, path, HEAD, dirty status, and ahead/behind status when available.
+3. Look for the active plan, usually `wiki/plans/<branch-slug>.md`, and summarize current status and next steps from it. If the plan is missing, say so and use git status/recent commits as fallback context.
+4. Check Portless routes when available and report whether the expected URL is running, stale, missing, or unknown.
+5. Check whether local env/state appears present enough to resume, without copying secrets or overwriting env files.
+6. Report branch, path, URL, dirty status, plan path, recent commits, start command, doctor command, finish command, and concrete next steps.
+
+Do not clean, prune, merge, delete branches, remove worktrees, or overwrite local state during resume unless the user explicitly asks for that cleanup.
+
 ## Finish A Worktree
 
 Prefer the project finish command:
@@ -149,6 +163,7 @@ Doctor: pnpm wt:doctor
 Finish: pnpm wt:finish feature/my-task
 Plan: wiki/plans/my-task.md or wiki/plans/completed/my-task.md
 State: shared or isolated backend/database details
+Resume: pnpm wt:resume feature/my-task
 ```
 
 Keep guidance specific to the repo in front of you. This skill should not override project-local rules.

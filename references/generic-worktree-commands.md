@@ -69,6 +69,40 @@ Also check:
 - env files and local state identifiers such as database names, cache prefixes, storage prefixes, and `WORKTREE_SLUG`
 - runtime guard output before bypassing or stopping any process
 
+## List And Resume
+
+Use this when no `wt:list` or `wt:resume` script exists.
+
+List active worktrees:
+
+```bash
+git worktree list --porcelain
+```
+
+For each worktree, inspect status:
+
+```bash
+git -C <worktree-path> status --short --branch
+git -C <worktree-path> log --oneline --decorate -5
+```
+
+For a specific branch, derive the branch slug and check the active plan:
+
+```bash
+test -f wiki/plans/<branch-slug>.md && sed -n '1,180p' wiki/plans/<branch-slug>.md
+```
+
+If Portless is available, check current routes:
+
+```bash
+portless list
+```
+
+Report branch, path, URL, dirty status, active plan path, recent commits, start
+command, doctor command, finish command, and next steps. Do not clean, prune,
+merge, delete branches, remove worktrees, or overwrite local state during
+resume unless explicitly requested.
+
 ## Run With Portless
 
 Prefer a package script. If none exists:

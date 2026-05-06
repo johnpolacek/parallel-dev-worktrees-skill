@@ -15,11 +15,21 @@ Create a new worktree for feature/login-rate-limit.
 ## Inspect
 
 ```text
+Show my active worktrees.
+```
+
+```text
 Use $parallel-dev-worktrees to inspect active worktrees before I merge.
 ```
 
 ```text
 Use $parallel-dev-worktrees to check whether any dirty worktrees overlap with this branch.
+```
+
+## Resume
+
+```text
+Resume work on feature/login-rate-limit.
 ```
 
 ## Handoff

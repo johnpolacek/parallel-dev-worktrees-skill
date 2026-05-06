@@ -31,7 +31,7 @@ Portless.
 From the project you want to use with parallel dev workspaces, run this prompt:
 
 ```text
-Use $parallel-dev-worktrees to initialize this project for parallel dev workspaces. Add repo-local wt:* scripts, configure Portless named URLs, document the workflow in AGENTS.md, and add checks for worktree-local env/state isolation.
+Use $parallel-dev-worktrees to initialize this project for parallel dev workspaces.
 ```
 
 The agent should inspect the project first, verify Portless is available, then
@@ -80,7 +80,7 @@ For a project without a worktree workflow, install the skill globally or invoke 
 From the repo you want to configure, ask the agent:
 
 ```text
-Use $parallel-dev-worktrees to initialize this repo for parallel worktrees. Add repo-local wt:* scripts, configure Portless named URLs, document the workflow in AGENTS.md, and add checks for worktree-local env/state isolation.
+Use $parallel-dev-worktrees to initialize this repo for parallel worktrees.
 ```
 
 The agent should inspect the project before editing. A good setup usually adds:

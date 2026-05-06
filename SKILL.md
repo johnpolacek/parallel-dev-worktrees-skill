@@ -27,17 +27,29 @@ Portless is a required companion for the intended workflow. During project initi
 
 If the Portless skill is missing and skill installation is available, install it as part of the initialization. If installation is not available or fails, stop before adding scripts that depend on Portless and report the exact install command. If only the CLI is missing, defer to the Portless skill for CLI setup and troubleshooting.
 
-When the user explicitly asks to initialize, onboard, configure, or install the workflow in a repo, inspect the project and then add a repo-specific workflow when appropriate. Prefer concrete project scripts and documentation over generic advice. A minimal workflow usually includes:
+When the user explicitly asks to initialize, bootstrap, onboard, configure, install, or set up parallel dev workspaces in a repo, treat that as a request to add the full project workflow below. The user does not need to spell out scripts, Portless, or documentation details in the prompt.
+
+## Bootstrap A Project
+
+When bootstrapping a repo for parallel dev workspaces:
+
+1. Inspect repo instructions, package scripts, dev server commands, env examples, backend/runtime config, and existing worktree docs.
+2. Verify the Portless prerequisite described above before adding scripts that depend on it.
+3. Add repo-local commands using the project's package manager or script style.
+4. Use the default branch as the integration checkout and sibling worktree directories at `../<repo>.worktrees/<branch-slug>`.
+5. Configure named Portless URLs: `https://<project>.localhost` for integration and `https://<branch-slug>.<project>.localhost` for feature worktrees.
+6. Add worktree-local env/state handling for generated clients, local databases, caches, queues, object storage prefixes, webhook/OAuth callback URLs, browser profiles, and other mutable state where relevant.
+7. Add a shared-backend guard when the project can accidentally connect multiple worktrees to the same mutable backend.
+8. Document the workflow in `AGENTS.md` or the repo's existing agent instructions.
+9. Run the safest available validation, such as `wt:doctor`, package script syntax checks, shell syntax checks, or relevant tests.
+
+Prefer concrete project scripts and documentation over generic advice. A minimal workflow usually includes:
 
 - `wt:doctor`: check git status, worktree list, Portless availability, and state isolation settings.
 - `wt:create <branch>`: create a sibling worktree from the default integration branch.
 - `wt:list`: show active worktrees, branches, URLs, and dirty status.
 - `wt:finish <branch>`: verify clean checkouts, fast-forward integration, check overlap, merge, remove the worktree, and prune stale metadata.
 - `wt:clean` / `wt:prune`: remove only safe stale worktree metadata, routes, and generated local state.
-
-For projects with shared backend risk, add or suggest a small runtime guard that reads a worktree identifier such as `WORKTREE_SLUG` and refuses to start if the app would connect to shared databases, caches, queues, object storage, or webhook endpoints without an explicit isolation setting.
-
-Also update or propose updating `AGENTS.md` with the project's worktree path convention, Portless URL pattern, state isolation rules, and finish/cleanup commands.
 
 If a repo has no worktree workflow and the user asked for an unrelated feature task, do not invent project-specific automation as part of that task. Use the generic fallback for the current work, then propose adding the minimal workflow later.
 

@@ -103,6 +103,32 @@ command, doctor command, finish command, and next steps. Do not clean, prune,
 merge, delete branches, remove worktrees, or overwrite local state during
 resume unless explicitly requested.
 
+## Open In Browser
+
+Use this when no `wt:open` script exists.
+
+Resolve the expected Portless URL from the branch slug and project name:
+
+```bash
+url="https://<branch-slug>.<project>.localhost"
+```
+
+Check whether Portless knows about the route:
+
+```bash
+portless list
+```
+
+If the route or dev server is not running, start the documented dev command
+through Portless:
+
+```bash
+portless run --name <branch-slug>.<project> <dev-command>
+```
+
+Open the Portless URL with the available browser tool. Do not fall back to a
+fixed numeric localhost port when a named Portless URL is available.
+
 ## Run With Portless
 
 Prefer a package script. If none exists:

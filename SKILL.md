@@ -53,6 +53,7 @@ Prefer concrete project scripts and documentation over generic advice. A minimal
 - `wt:create <branch>`: create a sibling worktree from the default integration branch.
 - `wt:list`: show active worktrees, branches, URLs, and dirty status.
 - `wt:resume <branch>`: show the worktree's current status, active plan, recent commits, Portless URL, start command, and likely next steps without cleaning or merging anything.
+- `wt:open <branch>`: resolve the worktree's Portless URL, ensure the dev server is running or report the start command, and open the URL in the browser.
 - `wt:finish <branch>`: verify clean checkouts, fast-forward integration, check overlap, move/update the plan from active to completed if present, apply the documented finish policy, remove the worktree, and prune stale metadata.
 - `wt:clean` / `wt:prune`: remove only safe stale worktree metadata, routes, and generated local state.
 
@@ -116,6 +117,19 @@ When the user asks to show active worktrees, resume work, continue a branch, or 
 
 Do not clean, prune, merge, delete branches, remove worktrees, or overwrite local state during resume unless the user explicitly asks for that cleanup.
 
+## Open In Browser
+
+When the user asks to open a web browser for this worktree, open the worktree in the browser, review the worktree, or open a specific branch in the browser:
+
+1. Prefer a project command such as `wt:open <branch>` when available.
+2. Identify the target worktree. If the request says "this worktree", use the current worktree when it is not the integration checkout; otherwise ask the user to choose from active worktrees or show the active worktree list.
+3. Resolve the Portless URL from project docs, `wt:list` / `wt:resume` output, env, or the standard pattern `https://<branch-slug>.<project>.localhost`.
+4. Check whether the dev server and Portless route appear to be running. If not, start the documented dev command when that is part of the repo workflow; otherwise report the exact start command.
+5. Open the URL with the available browser tool. For Codex browser automation, prefer the in-app browser when available.
+6. If opening fails, report whether the likely issue is the dev server, Portless route, DNS/cert setup, or env/state guard.
+
+Do not use a fixed numeric localhost port when a Portless URL is available. Do not bypass backend isolation or runtime guards just to open the browser.
+
 ## Finish A Worktree
 
 Prefer the project finish command:
@@ -164,6 +178,7 @@ Finish: pnpm wt:finish feature/my-task
 Plan: wiki/plans/my-task.md or wiki/plans/completed/my-task.md
 State: shared or isolated backend/database details
 Resume: pnpm wt:resume feature/my-task
+Open: pnpm wt:open feature/my-task or https://feature-my-task.project.localhost
 ```
 
 Keep guidance specific to the repo in front of you. This skill should not override project-local rules.

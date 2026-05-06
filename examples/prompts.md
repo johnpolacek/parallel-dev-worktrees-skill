@@ -32,6 +32,16 @@ Use $parallel-dev-worktrees to check whether any dirty worktrees overlap with th
 Resume work on feature/login-rate-limit.
 ```
 
+## Review
+
+```text
+Open a web browser for this worktree.
+```
+
+```text
+Open feature/login-rate-limit in the browser.
+```
+
 ## Handoff
 
 ```text

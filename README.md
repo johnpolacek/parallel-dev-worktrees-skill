@@ -80,6 +80,24 @@ or deleting anything. It should report branch, path, dirty status, Portless URL,
 plan path, recent commits, start command, finish command, and next steps from
 the active plan when available.
 
+## Review In Browser
+
+To open the current worktree in a browser:
+
+```text
+Open a web browser for this worktree.
+```
+
+To open a specific branch:
+
+```text
+Open feature/billing-export in the browser.
+```
+
+The agent should resolve the worktree's Portless URL, check whether the dev
+server or route appears to be running, start or report the documented start
+command when needed, and open the URL with the available browser tool.
+
 ## Finish Work
 
 When the feature is complete, ask:
@@ -109,6 +127,7 @@ Default behavior preserves feature branch history when finishing:
 Use $parallel-dev-worktrees to initialize this project.
 Create a new worktree for feature/billing-export.
 Resume work on feature/billing-export.
+Open feature/billing-export in the browser.
 Use $parallel-dev-worktrees to finish and clean up this feature branch.
 ```
 
@@ -124,6 +143,7 @@ commit on the integration branch, initialize with a squash finish policy:
 Use $parallel-dev-worktrees to initialize this project with a squash finish policy.
 Create a new worktree for feature/billing-export.
 Resume work on feature/billing-export.
+Open feature/billing-export in the browser.
 Use $parallel-dev-worktrees to finish and clean up this feature branch.
 ```
 
@@ -143,6 +163,7 @@ and pruning stale metadata/routes.
 - Preferring repo-local worktree scripts when available.
 - Running worktrees through stable Portless URLs.
 - Listing and resuming active worktrees after restarting an agent session.
+- Opening a worktree's Portless URL in the browser for review.
 - Avoiding fixed localhost ports in handoffs and browser tests.
 - Protecting dirty worktrees from accidental cleanup.
 - Finishing feature branches through safe merge and cleanup checks.

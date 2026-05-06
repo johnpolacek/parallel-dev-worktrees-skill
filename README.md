@@ -30,7 +30,7 @@ Portless.
 From the project you want to use with parallel dev workspaces, run this prompt:
 
 ```text
-Use $parallel-dev-worktrees to initialize this project for parallel dev workspaces.
+Use $parallel-dev-worktrees to initialize this project.
 ```
 
 To prefer a single-commit finish workflow in a specific project, say so during
@@ -83,7 +83,7 @@ branch before removing and pruning the worktree.
 Default behavior preserves feature branch history when finishing:
 
 ```text
-Use $parallel-dev-worktrees to initialize this project for parallel dev workspaces.
+Use $parallel-dev-worktrees to initialize this project.
 Create a new worktree for feature/billing-export.
 Use $parallel-dev-worktrees to finish and clean up this feature branch.
 ```

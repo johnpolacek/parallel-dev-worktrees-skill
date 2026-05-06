@@ -47,3 +47,7 @@ Use $parallel-dev-worktrees to evaluate this repo's worktree workflow and recomm
 ```text
 Use $parallel-dev-worktrees to initialize this repo for parallel worktrees.
 ```
+
+```text
+Use $parallel-dev-worktrees to initialize this repo for parallel worktrees with a squash finish policy.
+```

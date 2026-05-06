@@ -124,6 +124,23 @@ git branch -d feature/<branch-name>
 git worktree prune
 ```
 
+If the repo explicitly documents a squash finish policy, replace the merge step
+with a squash commit:
+
+```bash
+# In integration checkout after the clean-checkout and overlap checks above
+git status --short --branch
+git pull --ff-only
+git merge --squash feature/<branch-name>
+git commit -m "<single feature summary>"
+git worktree remove ../<repo>.worktrees/<branch-slug>
+git branch -d feature/<branch-name>
+git worktree prune
+```
+
+Do not use the squash finish path unless the repo documents it or the user
+explicitly asks for a single-commit finish.
+
 ## State Isolation Checklist
 
 - SQLite file unique to worktree.

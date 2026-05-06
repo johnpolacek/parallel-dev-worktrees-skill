@@ -33,6 +33,13 @@ From the project you want to use with parallel dev workspaces, run this prompt:
 Use $parallel-dev-worktrees to initialize this project for parallel dev workspaces.
 ```
 
+To prefer a single-commit finish workflow in a specific project, say so during
+initialization:
+
+```text
+Use $parallel-dev-worktrees to initialize this project for parallel dev workspaces with a squash finish policy.
+```
+
 The agent should inspect the project first, verify Portless is available, then
 add project-specific commands and documentation for creating, listing, running,
 finishing, and cleaning worktree-based workspaces. It should also check whether
@@ -66,10 +73,10 @@ check for overlap with other active worktrees, merge the feature branch, remove
 the linked worktree, delete only the merged feature branch, and prune stale
 worktree metadata/routes when supported.
 
-The default documented fallback uses a normal merge, not a guaranteed squash or
-single-commit merge. If a project wants every finished worktree to land as one
-commit on the integration branch, its repo-local `wt:finish` command should
-explicitly implement that policy.
+The default finish policy is a normal merge, not a guaranteed squash or
+single-commit merge. If a project was initialized with a squash finish policy,
+`wt:finish` should land the completed worktree as one commit on the integration
+branch before removing and pruning the worktree.
 
 ## Requirements
 
@@ -84,6 +91,7 @@ explicitly implement that policy.
 - Avoiding fixed localhost ports in handoffs and browser tests.
 - Protecting dirty worktrees from accidental cleanup.
 - Finishing feature branches through safe merge and cleanup checks.
+- Supporting an opt-in squash finish policy for projects that want one commit per completed worktree.
 - Keeping mutable state isolated across worktrees.
 - Detecting whether independent local databases are supported before declaring a project ready for parallel workspaces.
 

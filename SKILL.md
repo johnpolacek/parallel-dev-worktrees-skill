@@ -37,20 +37,21 @@ When bootstrapping a repo for parallel dev workspaces:
 2. Verify the Portless prerequisite described above before adding scripts that depend on it.
 3. Check whether the codebase can run independent local databases per worktree. Inspect env templates, ORM/database config, migrations, seed scripts, Docker Compose files, local SQLite paths, Postgres/MySQL database names or schemas, hosted dev database settings, and reset/migration commands.
 4. If independent local databases are not possible, treat that as a blocker for safe parallel development when work may touch schemas, migrations, seed data, or persisted app state. Stop before presenting the repo as ready for parallel workspaces, explain the concrete shared database risk, and recommend the smallest project change needed to support per-worktree databases.
-5. Add repo-local commands using the project's package manager or script style.
-6. Use the default branch as the integration checkout and sibling worktree directories at `../<repo>.worktrees/<branch-slug>`.
-7. Configure named Portless URLs: `https://<project>.localhost` for integration and `https://<branch-slug>.<project>.localhost` for feature worktrees.
-8. Add worktree-local env/state handling for generated clients, local databases, caches, queues, object storage prefixes, webhook/OAuth callback URLs, browser profiles, and other mutable state where relevant.
-9. Add a shared-backend guard when the project can accidentally connect multiple worktrees to the same mutable backend.
-10. Document the workflow in `AGENTS.md` or the repo's existing agent instructions.
-11. Run the safest available validation, such as `wt:doctor`, package script syntax checks, shell syntax checks, or relevant tests.
+5. Choose and document a finish policy. Use `merge` by default because it preserves feature history. If the user asks for a squash or single-commit policy, implement `squash` so each finished worktree lands as one commit on the integration branch. Do not infer squash by default.
+6. Add repo-local commands using the project's package manager or script style.
+7. Use the default branch as the integration checkout and sibling worktree directories at `../<repo>.worktrees/<branch-slug>`.
+8. Configure named Portless URLs: `https://<project>.localhost` for integration and `https://<branch-slug>.<project>.localhost` for feature worktrees.
+9. Add worktree-local env/state handling for generated clients, local databases, caches, queues, object storage prefixes, webhook/OAuth callback URLs, browser profiles, and other mutable state where relevant.
+10. Add a shared-backend guard when the project can accidentally connect multiple worktrees to the same mutable backend.
+11. Document the workflow in `AGENTS.md` or the repo's existing agent instructions.
+12. Run the safest available validation, such as `wt:doctor`, package script syntax checks, shell syntax checks, or relevant tests.
 
 Prefer concrete project scripts and documentation over generic advice. A minimal workflow usually includes:
 
 - `wt:doctor`: check git status, worktree list, Portless availability, database isolation support, and state isolation settings.
 - `wt:create <branch>`: create a sibling worktree from the default integration branch.
 - `wt:list`: show active worktrees, branches, URLs, and dirty status.
-- `wt:finish <branch>`: verify clean checkouts, fast-forward integration, check overlap, merge, remove the worktree, and prune stale metadata.
+- `wt:finish <branch>`: verify clean checkouts, fast-forward integration, check overlap, apply the documented finish policy, remove the worktree, and prune stale metadata.
 - `wt:clean` / `wt:prune`: remove only safe stale worktree metadata, routes, and generated local state.
 
 If a repo has no worktree workflow and the user asked for an unrelated feature task, do not invent project-specific automation as part of that task. Use the generic fallback for the current work, then propose adding the minimal workflow later.
@@ -113,10 +114,14 @@ A safe finish workflow should:
 2. Confirm integration checkout is clean.
 3. Fast-forward pull the integration branch unless the user approves otherwise.
 4. Run overlap checks against active worktrees.
-5. Merge the feature branch.
+5. Apply the repo's documented finish policy:
+   - `merge`: merge the feature branch while preserving its commits.
+   - `squash`: squash the feature branch into one new commit on the integration branch.
 6. Remove the linked worktree.
 7. Delete only the merged feature branch.
 8. Prune stale metadata/routes when supported.
+
+Never use a squash or single-commit finish policy unless the project documents it or the user explicitly asked for it during initialization or finish.
 
 After finishing, verify status in the integration checkout and run the relevant tests/build if the project expects it.
 

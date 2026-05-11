@@ -103,6 +103,7 @@ After creation, report:
 - For Portless installation, setup, and troubleshooting, defer to the official Portless skill: https://github.com/vercel-labs/portless/blob/main/skills/portless/SKILL.md.
 - If Portless is unavailable, strongly recommend setting it up before running multiple worktrees. Use numeric ports only as a temporary fallback for local-only tasks, document the exact port in the handoff, and avoid numeric-port fallbacks for OAuth, webhooks, browser automation handoffs, or anything requiring stable callback URLs.
 - Share the Portless URL with the user and browser tools.
+- After making code changes that affect the UI, put the worktree preview URL at the bottom of the final response so the user can open it quickly. Use the Portless URL when available; if only a temporary numeric localhost URL is available, label it as temporary and include the exact URL.
 - Use worktree-local browser profiles/sessions when available.
 - Do not run two worktrees against the same mutable backend unless the repo explicitly supports it.
 - If a runtime guard refuses to start a shared backend, inspect the guard output, then stop the stale process or create an isolated backend. Do not bypass the guard.
@@ -183,5 +184,13 @@ State: shared or isolated backend/database details
 Resume: pnpm wt:resume feature/my-task
 Open: pnpm wt:open feature/my-task or https://feature-my-task.project.localhost
 ```
+
+When a response reports completed code changes that affect the UI, end with a final standalone line:
+
+```text
+Preview: https://feature-my-task.project.localhost
+```
+
+If the app is not running, still include the expected preview URL when it can be resolved, plus the start command in the response body. Do not invent a URL; if the preview URL cannot be determined from project scripts, Portless routes, env, docs, or the standard worktree pattern, say that it is unknown and include the command or file path the user should use to start or open the UI.
 
 Keep guidance specific to the repo in front of you. This skill should not override project-local rules.

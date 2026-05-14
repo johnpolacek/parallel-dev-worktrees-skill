@@ -81,6 +81,20 @@ or deleting anything. It should report branch, path, dirty status, Portless URL,
 plan path, recent commits, start command, finish command, and next steps from
 the active plan when available.
 
+## Test Data Cleanup
+
+During development and testing, the agent should track data it creates and
+remove generated test data before handoff or finish. This includes database
+rows, uploads, object storage keys, cache entries, queue jobs, browser profiles,
+screenshots, recordings, emails/messages, webhook deliveries, and temporary
+fixtures created only for testing.
+
+Cleanup should use project reset or cleanup commands when available. If test
+data lands in shared infrastructure, the agent should stop and report the
+affected resources instead of guessing at broad destructive cleanup. Intentional
+seed data, migrations, fixtures, snapshots, or artifacts that are part of the
+code change should be preserved.
+
 ## Review In Browser
 
 To open the current worktree in a browser:

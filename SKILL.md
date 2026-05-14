@@ -71,6 +71,7 @@ If a repo has no worktree workflow and the user asked for an unrelated feature t
 - Never delete, reset, checkout over, or force-clean a dirty worktree without explicit user approval.
 - Do not merge when the integration checkout or feature worktree is dirty.
 - For schema, migration, seed, queue, upload, or backend-state work, isolate the database/backend/cache for the worktree.
+- Remove data generated during development and testing before handoff or finish. This includes test database rows, uploaded files, object storage keys, cache entries, queue jobs, emails/messages, webhook deliveries, local browser profiles, screenshots, recordings, and temporary fixtures created by the agent. Preserve intentional seed data, migrations, fixtures, snapshots, or other artifacts that are part of the code change.
 
 ## Create A Worktree
 
@@ -105,6 +106,7 @@ After creation, report:
 - Share the Portless URL with the user and browser tools.
 - After making code changes that affect the UI, put the worktree preview URL at the bottom of the final response so the user can open it quickly. Use the Portless URL when available; if only a temporary numeric localhost URL is available, label it as temporary and include the exact URL.
 - Use worktree-local browser profiles/sessions when available.
+- Track any data created while manually testing or running automated tests. After testing, remove the generated data with the repo's documented cleanup/reset commands or targeted deletes, then verify the worktree returns to the expected clean test state. Do not wipe shared or production-like data; if test data landed in a shared backend, stop and report the exact cleanup risk instead of guessing.
 - Do not run two worktrees against the same mutable backend unless the repo explicitly supports it.
 - If a runtime guard refuses to start a shared backend, inspect the guard output, then stop the stale process or create an isolated backend. Do not bypass the guard.
 
@@ -154,7 +156,8 @@ A safe finish workflow should:
    - `squash`: squash the feature branch into one new commit on the integration branch.
 7. Remove the linked worktree.
 8. Delete only the merged feature branch.
-9. Prune stale metadata/routes when supported.
+9. Remove generated development and test data for the feature worktree using project cleanup/reset commands or targeted deletes.
+10. Prune stale metadata/routes when supported.
 
 Never use a squash or single-commit finish policy unless the project documents it or the user explicitly asked for it during initialization or finish.
 
@@ -165,6 +168,8 @@ After finishing, verify status in the integration checkout and run the relevant 
 - Use project cleanup scripts first.
 - `wt:clean` should refuse dirty worktrees by default.
 - `wt:prune` should remove stale metadata, not active work.
+- Remove generated test data before declaring the worktree clean. Prefer repo commands for resetting local databases, object storage, queues, caches, email/webhook sandboxes, search indexes, analytics events, and other mutable test backends.
+- If cleanup requires destructive action against shared infrastructure, stop and ask for explicit approval with the affected resource names. Never erase broad shared data to hide test artifacts.
 - Portless cleanup should target orphaned routes/processes only.
 - Browser automation cleanup should target only the project's generated profiles/sessions.
 
@@ -181,6 +186,7 @@ Doctor: pnpm wt:doctor
 Finish: pnpm wt:finish feature/my-task
 Plan: wiki/plans/my-task.md or wiki/plans/completed/my-task.md
 State: shared or isolated backend/database details
+Test Data: cleanup performed, remaining generated data, or cleanup blocker
 Resume: pnpm wt:resume feature/my-task
 Open: pnpm wt:open feature/my-task or https://feature-my-task.project.localhost
 ```
